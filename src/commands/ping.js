@@ -1,6 +1,6 @@
 /** @format */
 
-const { SlashCommandBuilder } = require("discord.js/typings");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder().setName("ping").setDescription("Pong!"),
