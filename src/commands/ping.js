@@ -9,9 +9,9 @@ module.exports = {
 
     await handler.reloadCommands();
 
-    interaction.followUp('Reloaded');
+    interaction.followUp("Reloaded");
   },
   options: {
-    cooldown: '1d',
+    cooldown: "1d",
   },
 };
