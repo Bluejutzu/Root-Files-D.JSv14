@@ -1,9 +1,10 @@
 /** @format */
 
 require("dotenv/config");
-const { Client, GatewayIntentBits } = require("discord.js");
+const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
 const { CommandKit } = require("commandkit");
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
+const { request } = require("undici");
 
 const client = new Client({
   intents: [
@@ -24,15 +25,77 @@ new CommandKit({
   bulkRegister: true,
 });
 
-(async () => {
-    try {
-        await mongoose.connect(process.env.MONGODB_URI);
-        console.log("Connected to MongoDB");
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isChatInputCommand()) return;
+  const { commandName } = interaction;
+  try {
+    await interaction.deferReply();
 
-        client.login(process.env.TOKEN);
-    } catch (error) {
-        console.log(error)
+    if (commandName === "user-object") {
+      const user = interaction.options.getUser("user");
+      const userId = user.id;
+
+      const response = await fetch(
+        `https://discord.com/api/v10/953708302058012702`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bot ${process.env.TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+
+      const data = await response.json();
+
+      let nitroType;
+      if (data.premium_type == 2) {
+        nitroType = "Nitro"
+      } else if (data.premium_type == 1) {
+        nitroType = "Nitro Basic"
+      } else if (data.premium_type == 0) {
+        nitroType = "No Nitro on this account."
+      }
+
+      const userEmbed = new EmbedBuilder()
+        .setColor(0x0099ff)
+        .setTitle(`${data.username}`)
+        .addFields(
+          {
+            name: "User ID",
+            value: `data.id`,
+            inline: false
+          },
+          {
+            name: "Discriminator",
+            value: `data.discriminator`,
+            inline: false
+          },
+          {
+            name: "Nitro subscription",
+            value: `nitroType`,
+            inline: false
+          },
+        )
+        .setFooter({ text: "By Maryland Automatation"})
+        .setTimestamp()
+
+      interaction.channel.send(userEmbed);
     }
+  } catch (error) {
+    console.log(error);
+    interaction.editReply(`No response from the API, ${error}.`);
+  }
+});
 
+(async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log("Connected to MongoDB");
+
+    client.login(process.env.TOKEN);
+  } catch (error) {
+    console.log(error);
+  }
 })();
-

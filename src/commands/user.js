@@ -1,6 +1,8 @@
 /** @format */
 
+require("dotenv/config");
 const { SlashCommandBuilder } = require("discord.js");
+const { request } = require("undici");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -10,20 +12,9 @@ module.exports = {
       option
         .setName("user")
         .setDescription("The user to get a object of. IDs can be used")
+        .setRequired(true)
     ),
-  run: async ({ interaction, handler }) => {
-    const user = interaction.options.getUser("user");
-    const userId = user?.id
-
-    interaction.deferReply();
-    await handler.reloadCommands();
-
-    await fetch("https://discord.com/api/users/" + userId)
-      .then((response) => response.json())
-      .then((json) => console.log(json));
-
-    interaction.followUp(json);
-  },
+  run: () => {},
   options: {
     devOnly: true,
   },
