@@ -4,7 +4,7 @@ require("dotenv/config");
 const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
 const { CommandKit } = require("commandkit");
 const mongoose = require("mongoose");
-const { request } = require("undici");
+const { request, fetch } = require("undici");
 
 const client = new Client({
   intents: [
@@ -36,7 +36,7 @@ client.on("interactionCreate", async (interaction) => {
       const userId = user.id;
 
       const response = await fetch(
-        `https://discord.com/api/v10/953708302058012702`,
+        `https://discord.com/api/v10/users/${userId}`,
         {
           method: "GET",
           headers: {
@@ -46,16 +46,16 @@ client.on("interactionCreate", async (interaction) => {
         }
       );
 
-
       const data = await response.json();
+      console.log(data);
 
       let nitroType;
       if (data.premium_type == 2) {
-        nitroType = "Nitro"
+        nitroType = "Nitro";
       } else if (data.premium_type == 1) {
-        nitroType = "Nitro Basic"
+        nitroType = "Nitro Basic";
       } else if (data.premium_type == 0) {
-        nitroType = "No Nitro on this account."
+        nitroType = "No Nitro on this account.";
       }
 
       const userEmbed = new EmbedBuilder()
@@ -64,24 +64,24 @@ client.on("interactionCreate", async (interaction) => {
         .addFields(
           {
             name: "User ID",
-            value: `data.id`,
-            inline: false
+            value: data.id,
+            inline: false,
           },
           {
             name: "Discriminator",
-            value: `data.discriminator`,
-            inline: false
+            value: data.discriminator,
+            inline: false,
           },
           {
             name: "Nitro subscription",
-            value: `nitroType`,
-            inline: false
-          },
+            value: nitroType,
+            inline: false,
+          }
         )
-        .setFooter({ text: "By Maryland Automatation"})
-        .setTimestamp()
+        .setFooter({ text: "By Maryland Automatation" })
+        .setTimestamp();
 
-      interaction.channel.send(userEmbed);
+      interaction.editReply({ embeds: [userEmbed] });
     }
   } catch (error) {
     console.log(error);
