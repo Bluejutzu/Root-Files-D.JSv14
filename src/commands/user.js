@@ -1,8 +1,6 @@
 /** @format */
 
-require("dotenv/config");
 const { SlashCommandBuilder } = require("discord.js");
-const { request } = require("undici");
 
 module.exports = {
   data: new SlashCommandBuilder()
