@@ -1,5 +1,6 @@
 /** @format */
 
+require("dotenv/config");
 const { EmbedBuilder } = require('discord.js');
 const { fetch } = require('undici')
 

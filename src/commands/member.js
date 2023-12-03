@@ -8,7 +8,7 @@ module.exports = {
     .setDescription("Get info about a member")
     .addUserOption((option) =>
       option
-        .setname("user")
+        .setName("user")
         .setDescription("The user to get info of")
         .setRequired(true)
     ),
