@@ -4,7 +4,7 @@ const { EmbedBuilder, CommandInteraction } = require("discord.js");
 require("dotenv/config");
 const { fetch } = require("undici");
 
-module.exports = async (interaction) => {
+module.exports = async (interaction, client) => {
   if (!interaction.isChatInputCommand()) return;
   const { commandName } = interaction;
   try {
@@ -40,6 +40,15 @@ module.exports = async (interaction) => {
       }
 
       const memberEmbed = new EmbedBuilder()
+        .setColor("Blurple")
+        .setTitle(`@${user.username}`)
+        .addFields({
+          name: "User Information",
+          value: `Mention: ${user}\ Display Name: ${user.username}`,
+        })
+        .addFields('Roles', user.roles.map((r) => `${r}`).join(" | "), true);
+
+        interaction.reply({ embeds: [memberEmbed] });
     }
   } catch (error) {
     console.log(error);
