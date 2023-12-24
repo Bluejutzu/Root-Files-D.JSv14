@@ -1,6 +1,13 @@
 /** @format */
 
-const { EmbedBuilder, inlineCode, bold } = require("discord.js");
+const {
+  EmbedBuilder,
+  inlineCode,
+  bold,
+  ButtonBuilder,
+  ButtonStyle,
+  ActionRowBuilder
+} = require("discord.js");
 let suggestionId = 1;
 
 module.exports = async (interaction, client) => {
@@ -12,9 +19,9 @@ module.exports = async (interaction, client) => {
         content: `Your submission was received successfully, ${suggestionId}`,
         ephemeral: true,
       });
-
+      //Getting the user of the interaction
       const submitterUser = interaction.user;
-
+      //Embed send to the alert channel
       const content = interaction.fields.getTextInputValue("suggestContent");
       const formResponseEmbed = new EmbedBuilder()
         .setColor("Blurple")
@@ -27,20 +34,38 @@ module.exports = async (interaction, client) => {
         .setTimestamp()
         .setFooter({ text: `${submitterUser.id} ID: ${suggestionId}` });
 
+      //Buildin the approve and reject button
+      const approvebtn = new ButtonBuilder()
+        .setCustomId("approve")
+        .setLabel("Approve Suggestion")
+        .setStyle(ButtonStyle.Success);
+
+      const rejectbtn = new ButtonBuilder()
+        .setCustomId("reject")
+        .setLabel("Reject Suggestion")
+        .setStyle(ButtonStyle.Danger);
+
+      const btnSelection = new ActionRowBuilder()
+      .addComponents(approvebtn, rejectbtn);
+
       const submissionChannel = client.channels.cache.get(
         "1168943639867703438"
       );
-      await submissionChannel.send({ embeds: [formResponseEmbed] });
 
-      const statusPendingBold = bold("Status: Pending");
+      await submissionChannel.send({
+        embeds: [formResponseEmbed],
+        components: [btnSelection],
+      });
+      // Formatting //
+      const statusPendingBold = bold("Current Status: Pending");
       const contentinlineCode = inlineCode(content);
-
+      // Direct Message Embed
       const dmPending = new EmbedBuilder()
         .setColor("Yellow")
-        .setAuthor({ name: statusPendingBold })
+        .setAuthor({ name: `From ${interaction.guild}` })
         .setTitle("Your suggestion has been submitted")
         .setDescription(
-          "The status will change as soon as the suggestion has been approved/denied by HR."
+          `${statusPendingBold} \n The status will change as soon as the suggestion has been approved/denied by HR.`
         )
         .addFields({
           name: "Your Suggestion",
