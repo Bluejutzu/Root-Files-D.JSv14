@@ -1,8 +1,8 @@
 /** @format */
 
 require("dotenv/config");
-const { EmbedBuilder } = require('discord.js');
-const { fetch } = require('undici')
+const { EmbedBuilder } = require("discord.js");
+const { fetch } = require("undici");
 
 module.exports = async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
