@@ -1,6 +1,6 @@
 /** @format */
 
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, inlineCode, bold } = require("discord.js");
 let suggestionId = 1;
 
 module.exports = async (interaction, client) => {
@@ -31,6 +31,27 @@ module.exports = async (interaction, client) => {
         "1168943639867703438"
       );
       await submissionChannel.send({ embeds: [formResponseEmbed] });
+
+      const statusPendingBold = bold("Status: Pending");
+      const contentinlineCode = inlineCode(content);
+
+      const dmPending = new EmbedBuilder()
+        .setColor("Yellow")
+        .setAuthor({ name: statusPendingBold })
+        .setTitle("Your suggestion has been submitted")
+        .setDescription(
+          "The status will change as soon as the suggestion has been approved/denied by HR."
+        )
+        .addFields({
+          name: "Your Suggestion",
+          value: contentinlineCode,
+        })
+        .setTimestamp()
+        .setFooter({ text: `${submitterUser.id} ID: ${suggestionId}` });
+
+      await client.users.send(submitterUser.id, {
+        embeds: [dmPending],
+      });
     }
   } catch (error) {
     console.log(`Error receiving values from Modal: ${error}`);
