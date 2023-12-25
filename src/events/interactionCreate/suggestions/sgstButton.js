@@ -23,12 +23,14 @@ module.exports = async (interaction, client) => {
         }),
       }
     );
-    const data = await response.json();
-    console.log(data.last_message_id);
 
-    if (interaction.customId == "approvebtn") {
+    const data = await response.json();
+    const lastMessageId = data.last_message_id;
+    const channelId = data.id;
+
+    if (interaction.customId === "approvebtn") {
       const approveResponse = await fetch(
-        `https://discord.com/api/v10/channels/data.id/messages/data.last_message_id`,
+        `https://discord.com/api/v10/channels/${channelId}/messages/${lastMessageId}`,
         {
           method: "DELETE",
           headers: {
@@ -37,8 +39,29 @@ module.exports = async (interaction, client) => {
           },
         }
       );
-      const data = await approveResponse.json();
-    } else if (interaction.customId == "rejectbtn") {
+
+      if (approveResponse.status === 204) {
+        // Deletion successful
+      } else {
+        console.log("Unable to delete message, approveResponse.");
+      }
+    } else if (interaction.customId === "rejectbtn") {
+      const rejectResponse = await fetch(
+        `https://discord.com/api/v10/channels/${channelId}/messages/${lastMessageId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bot ${process.env.TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (rejectResponse.status === 204) {
+        // Deletion successful
+      } else {
+        console.log('Unable to delete message, rejectResponse.')
+      }
     }
   } catch (error) {
     console.log(`Error with API requests/DM creation: ${error}`);
