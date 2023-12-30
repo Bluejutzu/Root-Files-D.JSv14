@@ -3,7 +3,7 @@
 require("dotenv/config");
 const { EmbedBuilder } = require("discord.js");
 const { fetch } = require("undici");
-const { content, submitterUser, suggestionId } = require('./sgstModalSubmit')
+const { content, submitterUser, suggestionId } = require("./sgstModalSubmit");
 
 module.exports = async (interaction, client) => {
   if (!interaction.isButton()) return;
@@ -77,6 +77,7 @@ module.exports = async (interaction, client) => {
         );
 
         const editAPIData = await editEmbed.JSON();
+        console.log(editAPIData);
       } else {
         console.log(
           `Error within the API Request: ${approveResponse.status}, ${approveResponse.statusText}`

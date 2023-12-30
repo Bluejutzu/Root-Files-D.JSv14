@@ -10,7 +10,7 @@ const {
 } = require("discord.js");
 let suggestionId = 1;
 
-module.exports = async (interaction, client) => {
+module.exports = async (interaction, client,) => {
   if (!interaction.isModalSubmit()) return;
   try {
     if (interaction.customId === "suggestModal") {
@@ -23,6 +23,7 @@ module.exports = async (interaction, client) => {
       const submitterUser = interaction.user;
       //Embed send to the alert channel
       const content = interaction.fields.getTextInputValue("suggestContent");
+      
       const formResponseEmbed = new EmbedBuilder()
         .setColor("Blurple")
         .setTitle("New Suggestion Submission")
@@ -79,7 +80,6 @@ module.exports = async (interaction, client) => {
       await client.users.send(submitterUser.id, {
         embeds: [dmPending],
       });
-
     }
   } catch (error) {
     console.log(`Error receiving values from Modal: ${error}`);
