@@ -6,7 +6,7 @@ const {
   bold,
   ButtonBuilder,
   ButtonStyle,
-  ActionRowBuilder
+  ActionRowBuilder,
 } = require("discord.js");
 let suggestionId = 1;
 
@@ -45,8 +45,10 @@ module.exports = async (interaction, client) => {
         .setLabel("Reject Suggestion")
         .setStyle(ButtonStyle.Danger);
 
-      const btnSelection = new ActionRowBuilder()
-      .addComponents(approvebtn, rejectbtn);
+      const btnSelection = new ActionRowBuilder().addComponents(
+        approvebtn,
+        rejectbtn
+      );
 
       const submissionChannel = client.channels.cache.get(
         "1168943639867703438"
@@ -77,6 +79,7 @@ module.exports = async (interaction, client) => {
       await client.users.send(submitterUser.id, {
         embeds: [dmPending],
       });
+
     }
   } catch (error) {
     console.log(`Error receiving values from Modal: ${error}`);
