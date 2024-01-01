@@ -11,7 +11,5 @@ module.exports = {
 
     interaction.followUp("Reloaded");
   },
-  options: {
-    cooldown: "1d",
-  },
+  options: {},
 };
