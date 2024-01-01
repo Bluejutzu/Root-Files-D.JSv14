@@ -1,9 +1,8 @@
 /** @format */
 
 require("dotenv/config");
-const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
+const { Client, GatewayIntentBits, Events } = require("discord.js");
 const { CommandKit } = require("commandkit");
-const mongoose = require("mongoose");
 
 const client = new Client({
   intents: [
@@ -14,6 +13,7 @@ const client = new Client({
   ],
 });
 
+
 new CommandKit({
   client,
   devGuildIds: ["1168532822563233847"],
@@ -23,14 +23,8 @@ new CommandKit({
   validationsPath: `${__dirname}/validations`,
   bulkRegister: true,
 });
+client.once(Events.ClientReady, (readyClient) => {
+  console.log(`${client.user.username} is ready!`);
+});
 
-(async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log("Connected to MongoDB");
-
-    client.login(process.env.TOKEN);
-  } catch (error) {
-    console.log(error);
-  }
-})();
+client.login(process.env.TOKEN);
