@@ -10,6 +10,8 @@ module.exports = async (interaction, client) => {
     //const banTarget = banUser.username;
     const banReason = interaction.options.getString("reason");
 
+    if (!banUser) return;
+
     try {
       // equivalent to: INSERT INTO tags (target, reason, moderator, type) values (?, ?, ?, unban/ban);
       const ban = await Bans.create({

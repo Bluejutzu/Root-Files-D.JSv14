@@ -8,13 +8,14 @@ module.exports = async (interaction, client) => {
   if (commandName == "baninfo") {
     const query = interaction.options.getUser("userid")
     const queryTarget = query.id;
+        console.log(query, queryTarget, "baninfo");
 
     // equivalent to: SELECT * FROM tags WHERE name = 'tagName' LIMIT 1;
-    const data = await Bans.findOne({ where: { target: queryTarget } });
+    const bans = await Bans.findOne({ where: { target: queryTarget } });
 
-    if (data) {
+    if (bans) {
       return interaction.reply(
-        `<@!${queryTarget}> was banned for **${data.reason}** by ${data.moderator}`
+        `<@!${queryTarget}> was banned for **${bans.reason}** by ${bans.moderator}`
       );
     }
 
