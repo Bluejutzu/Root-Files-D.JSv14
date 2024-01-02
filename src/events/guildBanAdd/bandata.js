@@ -1,5 +1,5 @@
 /** @format */
-const Bans = require("../../../../models/bans");
+const Bans = require("../../models/bans");
 
 module.exports = async (interaction, client) => {
   if (!interaction.isChatInputCommand()) return;
@@ -11,7 +11,6 @@ module.exports = async (interaction, client) => {
     const banReason = interaction.options.getString("reason");
 
     if (!banUser) return;
-
     try {
       // equivalent to: INSERT INTO tags (target, reason, moderator, type) values (?, ?, ?, unban/ban);
       const ban = await Bans.create({
@@ -23,8 +22,9 @@ module.exports = async (interaction, client) => {
 
       return interaction.channel.send(`Ban data added.`);
     } catch (error) {
-      console.log(error)
-      return interaction.channel.send(`Unable to add ban data ${error}`);
+      if (error.name === "DiscordAPIError[50013]") {
+        return interaction.channel.send("Missing permissions");
+      }
     }
   } else return;
 };

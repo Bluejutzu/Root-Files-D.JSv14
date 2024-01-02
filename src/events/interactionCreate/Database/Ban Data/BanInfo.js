@@ -8,7 +8,6 @@ module.exports = async (interaction, client) => {
   if (commandName == "baninfo") {
     const query = interaction.options.getUser("userid")
     const queryTarget = query.id;
-        console.log(query, queryTarget, "baninfo");
 
     // equivalent to: SELECT * FROM tags WHERE name = 'tagName' LIMIT 1;
     const bans = await Bans.findOne({ where: { target: queryTarget } });

@@ -1,6 +1,10 @@
 /** @format */
 
-const { SlashCommandBuilder, bold } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  bold,
+  PermissionsBitField,
+} = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -14,9 +18,11 @@ module.exports = {
         .setName("reason")
         .setDescription("the reason for the ban")
         .setRequired(false)
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionsBitField.BanMembers),
   run: async ({ interaction, client }) => {
     await interaction.deferReply();
+
     const target = interaction.options.getUser("user");
     const reason =
       interaction.options.getString("reason") ?? "No reason provided";
