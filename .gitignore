@@ -2,6 +2,10 @@ node_modules
 .env
 .DS_Store
 unused
+<<<<<<< HEAD
 database.sqlite
 utils
 src\validations
+=======
+
+>>>>>>> 1afee30edf2bd9613294d48565361822dfd1906e
