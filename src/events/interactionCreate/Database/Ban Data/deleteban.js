@@ -11,12 +11,14 @@ module.exports = async (interaction, client) => {
       // Extract the ban IDs from the input
       const banIdsInput = interaction.options.getString("id");
 
-      // Check if the user provided IDs in the correct format (comma-separated)
-      if (!banIdsInput || !/^(\d+,)+\d+$/.test(banIdsInput)) {
-        return interaction.reply("You have to separate the IDs with a comma.");
+      // Check if the user provided IDs in the correct format
+      if (!banIdsInput || !/^\d+((,\d+)+)?$/.test(banIdsInput)) {
+        return interaction.reply(
+          "You can either provide a single ID or multiple IDs separated by a comma."
+        );
       }
 
-      // Convert the comma-separated string into an array of IDs
+      // Convert the string into an array of IDs
       const banIdsArray = banIdsInput.split(",").map(Number);
 
       // Your existing code to process ban IDs

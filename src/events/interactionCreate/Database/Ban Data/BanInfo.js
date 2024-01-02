@@ -14,7 +14,7 @@ module.exports = async (interaction, client) => {
 
     if (bans) {
       return interaction.reply(
-        `<@!${queryTarget}> was banned for **${bans.reason}** by ${bans.moderator}`
+        `<@!${queryTarget}> was banned for **${bans.reason}** by <@!${bans.moderator}>`
       );
     }
 

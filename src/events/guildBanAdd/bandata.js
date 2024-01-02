@@ -1,12 +1,13 @@
 /** @format */
 const Bans = require("../../models/bans");
+const { GuildBan } = require('discord.js')
 
 module.exports = async (interaction, client) => {
   if (!interaction.isChatInputCommand()) return;
 
-  const banUser = interaction.options.getUser("user");
+  const banUser = GuildBan.user;
   //const banTarget = banUser.username;
-  const banReason = interaction.options.getString("reason");
+  const banReason = GuildBan.reason;
 
   if (!banUser) return;
   try {
@@ -20,8 +21,6 @@ module.exports = async (interaction, client) => {
 
     return interaction.channel.send(`Ban data added.`);
   } catch (error) {
-    if (error.name === "DiscordAPIError[50013]") {
-      return interaction.channel.send("Missing permissions");
-    }
+    console.log(error)
   }
 };
