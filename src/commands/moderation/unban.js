@@ -16,13 +16,13 @@ module.exports = {
         .setRequired(false)
     ),
   run: async ({ interaction, client }) => {
-    interaction.deferReply();
+    await interaction.deferReply();
     const target = interaction.options.getUser("user");
     const reason =
       interaction.options.getString("reason") ?? "No reason provided";
     const boldReason = bold(reason);
 
-    await interaction.reply(`Banned ${target.username} for ${boldReason}`);
+    await interaction.followUp(`Unbanned ${target.username} for ${boldReason}`);
     await interaction.guild.members.unban(target);
   },
   options: { devOnly: true },

@@ -3,6 +3,8 @@
 require("dotenv/config");
 const { Client, GatewayIntentBits, Events } = require("discord.js");
 const { CommandKit } = require("commandkit");
+const Tags = require('./models/tags.js')
+const Bans = require("./models/bans.js");
 
 const client = new Client({
   intents: [
@@ -24,6 +26,8 @@ new CommandKit({
   bulkRegister: true,
 });
 client.once(Events.ClientReady, (readyClient) => {
+  Tags.sync();
+  Bans.sync();
   console.log(`${client.user.username} is ready!`);
 });
 
