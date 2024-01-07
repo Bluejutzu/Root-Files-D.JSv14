@@ -1,7 +1,6 @@
 node_modules
 .env
 .DS_Store
-unused
 database.sqlite
 utils
-src\validations
+validations
