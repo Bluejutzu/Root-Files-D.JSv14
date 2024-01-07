@@ -13,18 +13,8 @@ module.exports = async (message, oldMessage, newMessage) => {
     return;
 
   try {
-    /**
-     * @param {Message} oldMessage
-     * @param {Message} newMessage
-     * @param {Message} message
-     */
-    const target = oldMessage.author;
     const logEmbed = new EmbedBuilder()
       .setColor("Blurple")
-      .setAuthor({
-        name: ` ${target.username}`,
-        iconURL: `${target.avatarURL}`,
-      })
       .setDescription(
         `Message from ${message.author} edited in ${message.channel}. \n [Jump to Message!](https://discord.com/channels/${message.guildId}/${message.channelId}/${message.id})`
       )
@@ -47,6 +37,6 @@ module.exports = async (message, oldMessage, newMessage) => {
       embeds: [logEmbed],
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
