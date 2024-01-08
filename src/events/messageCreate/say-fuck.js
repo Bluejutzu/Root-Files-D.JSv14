@@ -1,7 +1,7 @@
 /** @format */
 
-module.exports = (message, client) => {
-    if (message.content === "bot") {
-      message.reply("fuck you");
-    }
-  };
+module.exports = (message) => {
+  if (message.content === "bot") {
+    message.reply("fuck you");
+  }
+};
