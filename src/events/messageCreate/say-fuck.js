@@ -2,6 +2,6 @@
 
 module.exports = (message, client) => {
     if (message.content === "bot") {
-      message.reply("!hey!");
+      message.reply("hey!");
     }
   };
