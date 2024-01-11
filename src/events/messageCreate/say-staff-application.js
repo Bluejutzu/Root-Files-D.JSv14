@@ -10,6 +10,8 @@ module.exports = (message, client) => {
 
   // Check if the Id of the channel the message was sent in equals to blChannelIds
   if (blChannelIds.includes(blChannelIds)) return;
+
+  // Check if the message content includes one of the querys
   if (
     lowerCaseContent.includes("how can I join staff") ||
     lowerCaseContent.includes("how can I become staff")
