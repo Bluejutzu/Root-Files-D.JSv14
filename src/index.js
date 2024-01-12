@@ -4,6 +4,7 @@ require("dotenv/config");
 const { Client, GatewayIntentBits, Events } = require("discord.js");
 const { CommandKit } = require("commandkit");
 const Bans = require("./models/bans.js");
+const keep_alive = require('./keep_alive.js')
 
 const client = new Client({
   intents: [
